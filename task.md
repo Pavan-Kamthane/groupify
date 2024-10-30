@@ -50,10 +50,18 @@ groupify/
    - **Libraries:** `firebase/auth`, `react-firebase-hooks` 
 
 3. **Home/Dashboard Page**
-   - Display a grid or list of all documents owned by or shared with the logged-in user.
-   - Include options to create a new document.
-   - **Libraries:** `react-router-dom`, `material-ui` (for design)
-
+   - **Files Needed:**
+     - `src/pages/Home.js`
+     - `src/components/Header.js` (if not already created)
+   - **Steps:**
+     1. Create or update `Home.js` to display a grid or list of all documents owned by or shared with the logged-in user.
+     2. Use Firebase Firestore to fetch documents based on the logged-in user's ID.
+     3. Include a button or option to create a new document.
+     4. Use `react-router-dom` for navigation and `material-ui` for design components.
+   - **Libraries:** 
+     - `react-router-dom`
+     - `@mui/material` (Material-UI for design)
+   
 4. **Document Creation Form**
    - Add a form to create a document, with fields like document name and type (Word, Excel, Text).
    - Store document metadata in Firestore.

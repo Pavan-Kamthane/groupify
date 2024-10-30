@@ -23,7 +23,10 @@ const Header = () => {
           GroupiFy
         </Typography>
         {currentUser ? (
-          <Box>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Typography variant="body1" sx={{ mr: 2 }}>
+              {currentUser.email}
+            </Typography>
             <Button color="inherit" onClick={handleLogout}>Logout</Button>
           </Box>
         ) : (
