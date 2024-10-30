@@ -10,8 +10,14 @@ Current Status:
 5. Header: done
 6. Theme: done
 
-
-
 Project Look: ![Login.js](image.png)
 Project Look: ![Home.js](image-1.png)
+-------------------
+Branch : 2-Home/Dashboard Page
+1. Home page structure created
+Updated Home:
+![Updated Home](image-2.png)
+
+
+
 
