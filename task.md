@@ -41,6 +41,9 @@ groupify/
 2. **Authentication System**
    - Implement Firebase Authentication (email/password, Google).
    - Create login and signup pages with secure routing.
+   - Implement logout feature.
+   - Add a common header for navigation in the `components` folder.
+   - Call the header in `App.js` to ensure it appears on all pages.
    - **Libraries:** `firebase/auth`, `react-firebase-hooks` 
 
 3. **Home/Dashboard Page**

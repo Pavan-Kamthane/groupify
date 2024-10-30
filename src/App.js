@@ -1,28 +1,38 @@
-import { AuthProvider } from './context/AuthContext';
-import { ThemeProvider, CssBaseline } from '@mui/material'; // Import CssBaseline for Material UI
-import ProtectedRoute from './components/ProtectedRoute'; // Import ProtectedRoute
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from './pages/Home'; // Adjust import paths as necessary
+import { useEffect, useState } from 'react';
+import { ThemeProvider, CssBaseline } from '@mui/material';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider, useAuth } from './context/AuthContext';
+import ProtectedRoute from './components/ProtectedRoute';
+import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import theme from './styles/theme'; // Adjust import if your theme is in a different location
+import Header from './components/Header';
+import theme from './styles/theme';
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <CssBaseline /> {/* Add CssBaseline to apply the theme globally */}
+      <CssBaseline />
       <AuthProvider>
         <Router>
-
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/" element={<ProtectedRoute element={<Home />} />} />
-          </Routes>
-
+          <AppRoutes />
         </Router>
       </AuthProvider>
     </ThemeProvider>
+  );
+}
+
+function AppRoutes() {
+  const { currentUser, loading } = useAuth();
+
+  if (loading) return <div>Loading...</div>; // Show loading indicator while auth state is being resolved
+
+  return (
+    <Routes>
+      <Route path="/login" element={currentUser ? <Navigate to="/" /> : <Login />} />
+      <Route path="/signup" element={currentUser ? <Navigate to="/" /> : <Signup />} />
+      <Route path="/" element={<ProtectedRoute element={<><Header /><Home /></>} />} />
+    </Routes>
   );
 }
 
