@@ -4,6 +4,9 @@
 
 This project is a real-time collaboration tool for remote teams, featuring chat, video conferencing, and document editing. Built with React, Firebase, and other supporting libraries.
 
+Problem Statement: Real-Time Collaboration Tool:
+
+Build a real-time collaboration tool for remote teams, featuring chat, video conferencing, and document editing.
 ---
 
 ### Tasks
