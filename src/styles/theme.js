@@ -3,35 +3,35 @@ import { createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
   palette: {
-    mode: 'dark', 
+    mode: 'light', // Changed to light mode
     primary: {
-      main: '#233142',
-      light: '#455d7a',
-      dark: '#f95959',
+      main: '#9C27B0', // Purple
+      light: '#D5006D', // Lighter purple for gradient
+      dark: '#6A1B9A', // Darker purple for gradient
     },
     secondary: {
-      main: '#e3e3e3',
-      light: 'rgba(227, 227, 227, 0.7)', 
-      dark: 'rgba(227, 227, 227, 0.5)',
+      main: '#FFA726', // Orange
+      light: 'rgba(255, 167, 38, 0.7)', 
+      dark: 'rgba(255, 167, 38, 0.5)',
     },
     background: {
-      default: '#233142',
-      paper: '#455d7a',
+      default: '#ffffff', // White background
+      paper: '#ffffff', // White paper background
     },
     text: {
-      primary: '#e3e3e3',
-      secondary: 'rgba(227, 227, 227, 0.7)',
-      disabled: 'rgba(227, 227, 227, 0.5)',
+      primary: '#263238', // Dark grey text
+      secondary: 'rgba(38, 50, 56, 0.7)',
+      disabled: 'rgba(38, 50, 56, 0.5)',
     },
-    divider: 'rgba(227, 227, 227, 0.12)',
+    divider: 'rgba(0, 0, 0, 0.12)',
     error: {
-      main: '#f95959',
+      main: '#f44336', // Error color
     },
     warning: {
-      main: '#ffa726',
+      main: '#FFA726',
     },
     info: {
-      main: '#29b6f6',
+      main: '#9C27B0', // Purple
     },
     success: {
       main: '#66bb6a',

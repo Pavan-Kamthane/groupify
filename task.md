@@ -11,7 +11,7 @@ Build a real-time collaboration tool for remote teams, featuring chat, video con
 
 ### Tasks
 
-#### 1. Project Setup and Firebase Integration
+1. Project Setup and Firebase Integration
 
 - Set up React project with Firebase SDK
 - Configure Firebase Authentication, Firestore, and Storage
@@ -63,14 +63,53 @@ groupify/
      - `@mui/material` (Material-UI for design)
    
 4. **Document Creation Form**
-   - Add a form to create a document, with fields like document name and type (Word, Excel, Text).
-   - Store document metadata in Firestore.
-   - **Libraries:** `formik` or `react-hook-form` for form handling
+   - **Files Needed:**
+     - `src/components/DocumentForm.js`
+     - Update `src/pages/Home.js` to include form dialog
+   - **Steps:**
+     1. Create DocumentForm component with fields:
+        - Document name (required)
+        - Document type (dropdown: Word, Excel, Text)
+        - Description (optional)
+     2. Add form validation using react-hook-form
+     3. Create Firestore document on form submit with:
+        - name
+        - type 
+        - owner (current user ID)
+        - createdAt timestamp
+        - lastModified timestamp
+     4. Add loading state and error handling
+     5. Show success message on completion
+   - **Libraries:** 
+     - `react-hook-form` for form handling
+     - `@mui/material` for form components
+     - `firebase/firestore` for database operations
 
 5. **Document Editing Interface**
-   - Use a rich text editor (e.g., Quill) for Word/Text document types.
-   - For Excel documents, integrate a spreadsheet-like editor (e.g., Handsontable).
-   - **Libraries:** `react-quill`, `handsontable` for Excel-like editing
+   - **Files Needed:**
+     - `src/components/DocumentEditor.js`
+     - Update `src/pages/Home.js` to add editor route
+   - **Steps:**
+     1. Create DocumentEditor component:
+        - Add route in App.js for `/document/:id`
+        - Fetch document data from Firestore using document ID
+        - Render different editors based on document type:
+          - Word/Text: Implement Quill editor
+          - Excel: Implement Handsontable
+     2. Add save functionality:
+        - Auto-save on content changes
+        - Update lastModified timestamp
+        - Show saving indicator
+     3. Add toolbar with formatting options:
+        - Text styling for Word/Text
+        - Cell formatting for Excel
+     4. Handle errors and loading states
+     5. Add preview/print options
+   - **Libraries:** 
+     - `react-quill` for Word/Text editing
+     - `handsontable` for Excel editing
+     - `@mui/material` for UI components
+     - `firebase/firestore` for saving changes
 
 6. **Real-Time Document Synchronization**
    - Use Firestore for real-time updates on document edits.

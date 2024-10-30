@@ -18,23 +18,23 @@ const Header = () => {
 
   return (
     <AppBar position="static">
-      <Toolbar>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          GroupiFy
-        </Typography>
-        {currentUser ? (
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Typography variant="body1" sx={{ mr: 2 }}>
-              {currentUser.email}
-            </Typography>
-            <Button color="inherit" onClick={handleLogout}>Logout</Button>
-          </Box>
-        ) : (
-          <Box>
-            <Button color="inherit" component={Link} to="/login">Login</Button>
-            <Button color="inherit" component={Link} to="/signup">Sign Up</Button>
-          </Box>
-        )}
+      <Toolbar sx={{ justifyContent: 'space-between' }}>
+        <Button color="inherit" component={Link} sx={{fontWeight:"bold", fontSize:20}} to="/">GroupiFy</Button>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          {currentUser ? (
+            <>
+              <Typography variant="body1" sx={{ mr: 2 }}>
+                {currentUser.email}
+              </Typography>
+              <Button color="inherit" onClick={handleLogout}>Logout</Button>
+            </>
+          ) : (
+            <>
+              <Button color="inherit" component={Link} to="/login">Login</Button>
+              <Button color="inherit" component={Link} to="/signup">Sign Up</Button>
+            </>
+          )}
+        </Box>
       </Toolbar>
     </AppBar>
   );
