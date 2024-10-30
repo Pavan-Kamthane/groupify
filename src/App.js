@@ -1,24 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import { AuthProvider } from './context/AuthContext';
+import { ThemeProvider, CssBaseline } from '@mui/material'; // Import CssBaseline for Material UI
+import ProtectedRoute from './components/ProtectedRoute'; // Import ProtectedRoute
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './pages/Home'; // Adjust import paths as necessary
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import theme from './styles/theme'; // Adjust import if your theme is in a different location
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <CssBaseline /> {/* Add CssBaseline to apply the theme globally */}
+      <AuthProvider>
+        <Router>
+
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/" element={<ProtectedRoute element={<Home />} />} />
+          </Routes>
+
+        </Router>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
 
