@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Header from './components/Header';
+import DocumentEditor from './components/DocumentEditor'; // Import DocumentEditor
 import theme from './styles/theme';
 
 function App() {
@@ -31,6 +32,7 @@ function AppRoutes() {
       <Route path="/login" element={currentUser ? <Navigate to="/" /> : <Login />} />
       <Route path="/signup" element={currentUser ? <Navigate to="/" /> : <Signup />} />
       <Route path="/" element={<ProtectedRoute element={<><Header /><Home /></>} />} />
+      <Route path="/document/:id" element={<ProtectedRoute element={<><Header /><DocumentEditor /></>} />} /> {/* Add route for DocumentEditor */}
     </Routes>
   );
 }

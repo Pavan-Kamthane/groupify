@@ -3,10 +3,14 @@ import { useAuth } from '../context/AuthContext';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../firebase/config';
 import { Button, Grid, Typography, Container, Card, CardContent, CardActionArea } from '@mui/material';
+import DocumentForm from '../components/DocumentForm';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
   const { currentUser } = useAuth();
   const [documents, setDocuments] = useState([]);
+  const [openDocumentForm, setOpenDocumentForm] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchDocuments = async () => {
@@ -27,6 +31,10 @@ const Home = () => {
     fetchDocuments();
   }, [currentUser]);
 
+  const handleDocumentClick = (id) => {
+    navigate(`/document/${id}`);
+  };
+
   return (
     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
       <Typography variant="h4" gutterBottom>
@@ -36,13 +44,18 @@ const Home = () => {
         variant="contained" 
         color="primary" 
         sx={{ mb: 3 }}
+        onClick={() => setOpenDocumentForm(true)}
       >
         Create New Document
       </Button>
+      <DocumentForm 
+        open={openDocumentForm}
+        onClose={() => setOpenDocumentForm(false)}
+      />
       <Grid container spacing={3}>
         {documents.map(doc => (
           <Grid item key={doc.id} xs={12} sm={6} md={4}>
-            <Card>
+            <Card onClick={() => handleDocumentClick(doc.id)} style={{ cursor: 'pointer' }}>
               <CardActionArea>
                 <CardContent>
                   <Typography variant="h6" component="h2">
