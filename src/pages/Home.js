@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+  import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../firebase/config';
@@ -24,6 +24,8 @@ const Home = () => {
           id: doc.id, 
           ...doc.data() 
         }));
+        // Sort documents by lastModified date in descending order
+        docs.sort((a, b) => b.lastModified?.toMillis() - a.lastModified?.toMillis());
         setDocuments(docs);
       }
     };
@@ -65,7 +67,7 @@ const Home = () => {
                     {doc.type}
                   </Typography>
                   <Typography variant="body2" component="p">
-                    Last modified: {doc.lastModified?.toDate().toLocaleDateString()}
+                    Last modified: {doc.lastModified?.toDate().toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' })} at {doc.lastModified?.toDate().toLocaleTimeString()}
                   </Typography>
                 </CardContent>
               </CardActionArea>

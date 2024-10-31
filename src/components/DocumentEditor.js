@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { doc, getDoc, updateDoc, serverTimestamp } from 'firebase/firestore';
+import { doc, updateDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../firebase/config';
 import { Box, Paper, Typography, CircularProgress, Alert, Toolbar, AppBar, IconButton, Tooltip } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
@@ -8,37 +8,19 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { HotTable } from '@handsontable/react';
 import 'handsontable/dist/handsontable.full.css';
+import useFirestoreRealtime from '../hooks/useFirestoreRealtime'; // Import the custom hook
 
 const DocumentEditor = () => {
     const { id } = useParams();
-    const [document, setDocument] = useState(null);
+    const { documentData, loading, error } = useFirestoreRealtime(id); // Use the custom hook
     const [content, setContent] = useState('');
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState('');
     const [saving, setSaving] = useState(false);
 
     useEffect(() => {
-        const fetchDocument = async () => {
-            try {
-                const docRef = doc(db, 'documents', id);
-                const docSnap = await getDoc(docRef);
-
-                if (docSnap.exists()) {
-                    setDocument({ id: docSnap.id, ...docSnap.data() });
-                    setContent(docSnap.data().content || '');
-                } else {
-                    setError('Document not found');
-                }
-            } catch (err) {
-                setError('Error loading document');
-                console.error('Error fetching document:', err);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchDocument();
-    }, [id]);
+        if (documentData) {
+            setContent(documentData.content || '');
+        }
+    }, [documentData]);
 
     const handleContentChange = async (newContent) => {
         setContent(newContent);
@@ -51,7 +33,6 @@ const DocumentEditor = () => {
                 lastModified: serverTimestamp()
             });
         } catch (err) {
-            setError('Failed to save changes');
             console.error('Error saving document:', err);
         } finally {
             setSaving(false);
@@ -75,7 +56,7 @@ const DocumentEditor = () => {
     }
 
     const renderEditor = () => {
-        switch (document?.type) {
+        switch (documentData?.type) {
             case 'word':
             case 'text':
                 return (
@@ -121,13 +102,12 @@ const DocumentEditor = () => {
                         manualRowResize={true}
                         filters={true}
                         dropdownMenu={true}
-                        // Adding Google Sheets-like features
-                        allowInsertRow={true} // Allow inserting rows
-                        allowInsertColumn={true} // Allow inserting columns
-                        allowRemoveRow={true} // Allow removing rows
-                        allowRemoveColumn={true} // Allow removing columns
-                        allowCopyPaste={true} // Allow copy-pasting
-                        allowComments={true} // Allow comments on cells
+                        allowInsertRow={true}
+                        allowInsertColumn={true}
+                        allowRemoveRow={true}
+                        allowRemoveColumn={true}
+                        allowCopyPaste={true}
+                        allowComments={true}
                     />
                 );
             default:
@@ -140,7 +120,7 @@ const DocumentEditor = () => {
             <AppBar position="static" color="primary" sx={{ mb: 2 }}>
                 <Toolbar>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        {document?.name}
+                        {documentData?.name}
                     </Typography>
                     <Tooltip title="Save Document">
                         <IconButton onClick={() => handleContentChange(content)} color="inherit">
