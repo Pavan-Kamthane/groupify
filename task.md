@@ -62,7 +62,7 @@ groupify/
      - `react-router-dom`
      - `@mui/material` (Material-UI for design)
    
-4. **Document Creation Form**
+4. **Document Creation Form** : Done
    - **Files Needed:**
      - `src/components/DocumentForm.js`
      - Update `src/pages/Home.js` to include form dialog
@@ -85,7 +85,7 @@ groupify/
      - `@mui/material` for form components
      - `firebase/firestore` for database operations
 
-5. **Document Editing Interface**
+5. **Document Editing Interface** : Done
    - **Files Needed:**
      - `src/components/DocumentEditor.js`
      - Update `src/pages/Home.js` to add editor route
@@ -111,7 +111,17 @@ groupify/
      - `@mui/material` for UI components
      - `firebase/firestore` for saving changes
 
-6. **Real-Time Document Synchronization**
+6. **Real-Time Document Synchronization** : Done
+   - **Files Needed:**
+     - `src/hooks/useFirestoreRealtime.js` for real-time Firestore updates
+     - `src/components/DocumentEditor.js` for integrating real-time updates
+   - **Steps:**
+     1. Create a custom hook `useFirestoreRealtime` to handle real-time Firestore updates.
+     2. Integrate the hook into the `DocumentEditor` component to fetch and update document data in real-time.
+     3. Implement real-time listeners for document changes and update the editor state accordingly.
+     4. Handle errors and loading states for real-time updates.
+   - **Libraries:** 
+     - `firebase/firestore` for real-time database operations
    - Use Firestore for real-time updates on document edits.
    - Set up real-time listeners to handle collaborative editing.
    - **Libraries:** `firebase/firestore`

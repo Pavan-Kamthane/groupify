@@ -74,4 +74,30 @@ branch : 3-
 
      Current Look: ![alt text](image-3.png)
 
+Current File Structures:
+groupify/
+├── public/
+├── src/
+│   ├── components/  
+|         |__ DocumentEditor.js  
+|         |__ DocumentForm.js  
+|         |__ Header.js  
+|         |__ ProtectedRoute.js  
+│   ├── firebase/               # Firebase configuration and utility functions
+│   │   └── config.js
+│   ├── pages/                  # Different page components (e.g., Home, Login, Document)
+│       |__ Login.js
+│       |__ Signup.js   
+│       |__ Home.js
+│   ├── context/                # Context for global states (e.g., AuthContext)
+│       |__ AuthContext.js
+│   ├── hooks/                  # Custom hooks for Firebase interactions
+│   ├── styles/                 # Stylesheets (e.g., theme.css, global.css)
+|         |_ theme.js
+│   ├── App.js                  # Main app component with routing
+│   └── index.js                # Entry point
+├── .gitignore
+├── package.json
+└── README.md
+
 
