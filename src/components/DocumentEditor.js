@@ -187,7 +187,7 @@ const DocumentEditor = () => {
                     </Paper>
                     <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', flex: 0.3, p: 2, borderRadius: '8px', backgroundColor: '#f9f9f9', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
                         <Box>
-                            <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>Shared With:</Typography>
+                            <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>Working With:</Typography>
                             <Box sx={{ maxHeight: '300px', overflowY: 'auto', mb: 2 }}>
                                 {documentData?.sharedWith && documentData.sharedWith.length > 0 ? (
                                     documentData.sharedWith.map((email, index) => (
