@@ -6,6 +6,7 @@ import { db } from '../firebase/config';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
+
 const DocumentForm = ({ open, onClose }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -33,7 +34,8 @@ const DocumentForm = ({ open, onClose }) => {
         description: data.description,
         owner: currentUser.uid,
         createdAt: serverTimestamp(),
-        lastModified: serverTimestamp()
+        lastModified: serverTimestamp(),
+        sharedWith: [] // Add this field to track shared users
       });
 
       setSuccess(true);
