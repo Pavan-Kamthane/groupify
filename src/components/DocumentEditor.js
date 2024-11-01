@@ -12,6 +12,7 @@ import useFirestoreRealtime from '../hooks/useFirestoreRealtime'; // Import the 
 import ShareIcon from '@mui/icons-material/Share'; // Import ShareIcon
 import ShareDocument from './ShareDocument'; // Import ShareDialog
 import { auth } from '../firebase/config'; // Import auth from your Firebase config
+import Chat from './Chat'; // Import Chat component
 
 const DocumentEditor = () => {
     const { id } = useParams();
@@ -152,7 +153,7 @@ const DocumentEditor = () => {
                     <Paper elevation={4} sx={{ p: 3, borderRadius: '8px', flex: 1, mr: 2 }}>
                         {renderEditor()}
                     </Paper>
-                    <Box sx={{ flex: 0.3, p: 2, borderRadius: '8px', backgroundColor: '#f5f5f5', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
+                    <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', flex: 0.3, p: 2, borderRadius: '8px', backgroundColor: '#f5f5f5', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
                         <Typography variant="h6" sx={{ mb: 1, fontWeight: 'bold' }}>Shared With:</Typography>
                         <ul>
                             {documentData.sharedWith && documentData.sharedWith.length > 0 && documentData.sharedWith
@@ -165,6 +166,7 @@ const DocumentEditor = () => {
                                     </li>
                                 ))}
                         </ul>
+                        <Chat documentId={id} currentUser={auth.currentUser} />
                     </Box>
                 </Box>
             </Box>
