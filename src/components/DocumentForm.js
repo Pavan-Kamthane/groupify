@@ -36,7 +36,8 @@ const DocumentForm = ({ open, onClose }) => {
         owner: currentUser.uid,
         createdAt: serverTimestamp(),
         lastModified: serverTimestamp(),
-        sharedWith: [] // Add this field to track shared users
+        sharedWith: [] ,// Add this field to track shared users
+        typingUsers: [] // Add this field to track shared users
       });
 
       setSuccess(true);

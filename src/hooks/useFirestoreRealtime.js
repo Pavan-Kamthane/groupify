@@ -12,7 +12,8 @@ const useFirestoreRealtime = (documentId) => {
 
         const unsubscribe = onSnapshot(documentRef, (doc) => {
             if (doc.exists()) {
-                setDocumentData({ id: doc.id, ...doc.data() });
+                const data = doc.data();
+                setDocumentData({ id: doc.id, ...data, typingUsers: data.typingUsers || [] }); // Include typingUsers field
                 setLoading(false);
             } else {
                 setError('Document does not exist');
@@ -30,5 +31,4 @@ const useFirestoreRealtime = (documentId) => {
 };
 
 export default useFirestoreRealtime;
-
 
