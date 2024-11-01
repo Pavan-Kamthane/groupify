@@ -1,25 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import { collection, addDoc, query, orderBy, onSnapshot, getDoc, doc } from 'firebase/firestore';
+import React, { useEffect, useState, useRef } from 'react';
+import { collection, addDoc, query, orderBy, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebase/config';
-import { Box, TextField, Button, Typography, Avatar, Grid, Paper } from '@mui/material';
-import { deepPurple } from '@mui/material/colors';
+import { Box, TextField, Button, Typography, Avatar, Grid, Paper, Divider } from '@mui/material';
+import { deepPurple, grey, lightBlue } from '@mui/material/colors';
+import SendIcon from '@mui/icons-material/Send';
 
 const Chat = ({ documentId, currentUser }) => {
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
-    const [userEmails, setUserEmails] = useState({}); // Store user emails
+    const [userEmails, setUserEmails] = useState({});
+    const chatRef = useRef(null);
 
     useEffect(() => {
         const fetchUserEmails = async () => {
-            const usersSnapshot = await collection(db, 'users'); // Assuming 'users' is your users collection
-            const users = {};
-            onSnapshot(usersSnapshot, (snapshot) => {
+            const usersCollection = collection(db, 'users');
+            const unsubscribe = onSnapshot(usersCollection, (snapshot) => {
+                const emails = {};
                 snapshot.forEach((doc) => {
                     const userData = doc.data();
-                    users[doc.id] = userData.email; // Map userId to email
+                    emails[doc.id] = userData.email;
                 });
-                setUserEmails(users);
+                setUserEmails(emails);
             });
+            return () => unsubscribe();
         };
 
         fetchUserEmails();
@@ -37,6 +40,12 @@ const Chat = ({ documentId, currentUser }) => {
                 msgs.push({ id: doc.id, ...doc.data() });
             });
             setMessages(msgs);
+            if (chatRef.current) {
+                chatRef.current.scrollTo({
+                    top: chatRef.current.scrollHeight,
+                    behavior: 'smooth'
+                });
+            }
         });
 
         return () => unsubscribe();
@@ -55,39 +64,97 @@ const Chat = ({ documentId, currentUser }) => {
     };
 
     return (
-        <Box sx={{ mt: 4, border: '1px solid #ccc', p: 2, borderRadius: '8px', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
-            <Typography variant="h6" sx={{ mb: 2, fontWeight: 'bold' }}>Chat</Typography>
-            <Box sx={{ p: 2, borderRadius: '8px', backgroundColor: '#f5f5f5' }}>
+        <Box
+            sx={{
+                mt: 4,
+                border: '1px solid #ddd',
+                borderRadius: '8px',
+                boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
+                display: 'flex',
+                flexDirection: 'column',
+                maxHeight: '500px',
+                overflowY: 'auto',
+                bgcolor: '#fafafa',
+            }}
+        >
+            {/* Chat Header */}
+            <Typography
+                variant="h6"
+                sx={{
+                    p: 2,
+                    fontWeight: 'bold',
+                    position: 'sticky',
+                    top: 0,
+                    bgcolor: 'white',
+                    zIndex: 1,
+                    borderBottom: '1px solid #eee'
+                }}
+            >
+                Chat
+            </Typography>
+
+            {/* Chat Messages */}
+            <Box
+                sx={{
+                    p: 2,
+                    flex: 1,
+                    overflowY: 'auto',
+                }}
+                ref={chatRef}
+            >
                 {messages.map((msg) => (
-                    <Paper key={msg.id} sx={{ p: 2, mb: 2, borderRadius: '8px', backgroundColor: msg.userId === currentUser.uid ? '#e3e3e3' : '#fff' }}>
-                        <Grid container spacing={2}>
+                    <Paper
+                        key={msg.id}
+                        sx={{
+                            p: 2,
+                            mb: 1.5,
+                            borderRadius: '8px',
+                            maxWidth: '70%',
+                            bgcolor: msg.userId === currentUser.uid ? lightBlue[50] : grey[100],
+                            alignSelf: msg.userId === currentUser.uid ? 'flex-end' : 'flex-start',
+                            boxShadow: msg.userId === currentUser.uid
+                                ? '0px 4px 10px rgba(30, 136, 229, 0.2)'
+                                : '0px 4px 10px rgba(100, 100, 100, 0.15)',
+                        }}
+                    >
+                        <Grid container wrap="nowrap" spacing={2}>
                             <Grid item>
-                                <Avatar sx={{ bgcolor: deepPurple[500] }}>{msg.userId === currentUser.uid ? 'Y' : 'O'}</Avatar>
+                                <Avatar sx={{ bgcolor: msg.userId === currentUser.uid ? deepPurple[500] : grey[500] }}>
+                                    {msg.userId === currentUser.uid ? 'Y' : 'O'}
+                                </Avatar>
                             </Grid>
-                            <Grid item xs={12} sm container>
-                                <Grid container direction="column" spacing={2}>
-                                    <Grid item>
-                                        <Typography variant="body2" color="textPrimary">
-                                            <strong>{msg.userId === currentUser.uid ? 'You' : userEmails[msg.userId] || msg.userId}:</strong> {msg.message}
-                                        </Typography>
-                                    </Grid>
-                                </Grid>
+                            <Grid item xs>
+                                <Typography variant="body2" color="textPrimary">
+                                    <strong>{msg.userId === currentUser.uid ? 'You' : userEmails[msg.userId] || msg.userId}</strong>
+                                </Typography>
+                                <Typography variant="body2" sx={{ wordWrap: 'break-word' }}>
+                                    {msg.message}
+                                </Typography>
+                                <Typography variant="caption" color="textSecondary">
+                                    {new Date(msg.timestamp?.toDate()).toLocaleString()}
+                                </Typography>
                             </Grid>
                         </Grid>
                     </Paper>
                 ))}
             </Box>
-            <TextField
-                fullWidth
-                variant="outlined"
-                label="Type a message"
-                value={newMessage}
-                onChange={(e) => setNewMessage(e.target.value)}
-                sx={{ mb: 2 }}
-            />
-            <Button onClick={handleSend} variant="contained" color="primary" sx={{ mt: 1, mb: 2 }}>
-                Send
-            </Button>
+
+            <Divider sx={{ my: 1 }} />
+
+            {/* Message Input */}
+            <Box sx={{ display: 'flex', alignItems: 'center', p: 1.5 }}>
+                <TextField
+                    fullWidth
+                    variant="outlined"
+                    label="Type a message"
+                    value={newMessage}
+                    onChange={(e) => setNewMessage(e.target.value)}
+                    sx={{ flex: 1, mr: 1 }}
+                />
+                <Button onClick={handleSend} variant="contained" color="primary">
+                    <SendIcon />
+                </Button>
+            </Box>
         </Box>
     );
 };

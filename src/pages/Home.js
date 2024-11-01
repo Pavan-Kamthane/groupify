@@ -9,13 +9,16 @@ import { useNavigate } from 'react-router-dom';
 const Home = () => {
   const { currentUser } = useAuth();
   const [documents, setDocuments] = useState([]);
-  const [users, setUsers] = useState({}); // State to store user information
+  const [users, setUsers] = useState({});
   const [openDocumentForm, setOpenDocumentForm] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchDocuments = async () => {
       if (currentUser) {
+        const uniqueDocIds = new Set(); // Set to keep track of unique document IDs
+        const combinedDocs = [];
+
         // Fetch documents owned by the user
         const ownedDocsQuery = query(
           collection(db, 'documents'),
@@ -23,10 +26,13 @@ const Home = () => {
         );
 
         const ownedDocsSnapshot = await getDocs(ownedDocsQuery);
-        const ownedDocs = ownedDocsSnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        }));
+        ownedDocsSnapshot.forEach(doc => {
+          const docData = { id: doc.id, ...doc.data() };
+          if (!uniqueDocIds.has(doc.id)) {
+            uniqueDocIds.add(doc.id); // Add to set to ensure uniqueness
+            combinedDocs.push(docData);
+          }
+        });
 
         // Fetch documents shared with the user
         const sharedDocsQuery = query(
@@ -35,13 +41,13 @@ const Home = () => {
         );
 
         const sharedDocsSnapshot = await getDocs(sharedDocsQuery);
-        const sharedDocs = sharedDocsSnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        }));
-
-        // Combine both owned and shared documents
-        const combinedDocs = [...ownedDocs, ...sharedDocs];
+        sharedDocsSnapshot.forEach(doc => {
+          const docData = { id: doc.id, ...doc.data() };
+          if (!uniqueDocIds.has(doc.id)) {
+            uniqueDocIds.add(doc.id); // Add to set to ensure uniqueness
+            combinedDocs.push(docData);
+          }
+        });
 
         // Sort combined documents by lastModified date in descending order
         combinedDocs.sort((a, b) => b.lastModified?.toMillis() - a.lastModified?.toMillis());
@@ -56,7 +62,7 @@ const Home = () => {
       usersSnapshot.forEach(userDoc => {
         userMap[userDoc.id] = userDoc.data(); // Assuming userDoc.id is the user ID
       });
-      setUsers(userMap); // Store user information keyed by user ID
+      setUsers(userMap);
     };
 
     fetchDocuments();
@@ -67,7 +73,6 @@ const Home = () => {
     navigate(`/document/${id}`);
   };
 
-  // Separate owned and shared documents for rendering
   const ownedDocuments = documents.filter(doc => doc.owner === currentUser.uid);
   const sharedDocuments = documents.filter(doc => doc.sharedWith && doc.sharedWith.includes(currentUser.email));
 
@@ -91,7 +96,7 @@ const Home = () => {
 
       {/* Owned Documents Section */}
       <Typography variant="h5" gutterBottom>
-        Owned Documents
+        My Documents
       </Typography>
       <Grid container spacing={3}>
         {ownedDocuments.map(doc => (
@@ -129,7 +134,7 @@ const Home = () => {
                     {doc.name}
                   </Typography>
                   <Typography color="textSecondary">
-                    Owner: {users[doc.owner]?.name || users[doc.owner]?.email || 'Unknown'} {/* Display owner's name or email */}
+                    Owner: {users[doc.owner]?.name || users[doc.owner]?.email || 'Unknown'}
                   </Typography>
                   <Typography color="textSecondary">
                     {doc.type}
@@ -144,7 +149,6 @@ const Home = () => {
         ))}
       </Grid>
 
-      {/* If no documents are found, show a message to create the first document */}
       {documents.length === 0 && (
         <Typography variant="h6" gutterBottom sx={{ mt: 4 }}>
           You haven't created any documents yet. Click the button above to create your first document.
