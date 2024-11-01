@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import { doc, updateDoc, serverTimestamp } from 'firebase/firestore';
+import { doc, updateDoc, serverTimestamp, onSnapshot, collection, getDocs, arrayUnion, arrayRemove } from 'firebase/firestore';
 import { db } from '../firebase/config';
 import { Box, Paper, Typography, CircularProgress, Alert, Toolbar, AppBar, IconButton, Tooltip } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
@@ -20,6 +20,7 @@ const DocumentEditor = () => {
     const [content, setContent] = useState('');
     const [saving, setSaving] = useState(false);
     const [openShareDialog, setOpenShareDialog] = useState(false);
+    const [typingUsers, setTypingUsers] = useState([]); // State to manage typing users
     const chatRef = useRef(null); // Create a ref for the chat box
 
     // Get the current user's email
@@ -31,6 +32,15 @@ const DocumentEditor = () => {
         }
     }, [documentData]);
 
+    useEffect(() => {
+        const unsubscribe = onSnapshot(doc(db, 'documents', id), (doc) => {
+            const typingUsers = doc.data().typingUsers || [];
+            setTypingUsers(typingUsers);
+        });
+
+        return () => unsubscribe();
+    }, [id]);
+
     const handleContentChange = async (newContent) => {
         setContent(newContent);
         setSaving(true);
@@ -39,8 +49,16 @@ const DocumentEditor = () => {
             const docRef = doc(db, 'documents', id);
             await updateDoc(docRef, {
                 content: newContent,
-                lastModified: serverTimestamp()
+                lastModified: serverTimestamp(),
+                typingUsers: arrayUnion(currentUserEmail) // Add current user to typingUsers
             });
+
+            // Set a timeout to remove the typing status after a specific period of inactivity
+            setTimeout(() => {
+                updateDoc(docRef, {
+                    typingUsers: arrayRemove(currentUserEmail)
+                });
+            }, 5000); // 5 seconds
         } catch (err) {
             console.error('Error saving document:', err);
         } finally {
@@ -136,6 +154,19 @@ const DocumentEditor = () => {
                         <Typography variant="h6" component="div" sx={{ flexGrow: 1, fontWeight: 'bold', color: '#fff' }}>
                             {documentData?.name}
                         </Typography>
+                        <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
+                            {typingUsers.length > 0 ? (
+                                typingUsers.map((email, index) => (
+                                    <Box key={index} sx={{ p: 1, borderRadius: '4px', mr: 1, mb: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', color: 'white' }}>
+                                        <Typography variant="body1" sx={{ color: 'white' }}>{email} is typing</Typography>
+                                    </Box>
+                                ))
+                            ) : (
+                                <Box sx={{ textAlign: 'center', color: 'text.secondary' }}>
+                                    <Typography variant="body2"></Typography>
+                                </Box>
+                            )}
+                        </Box>
                         <Tooltip title="Share Document">
                             <IconButton onClick={handleShareClick} color="inherit" sx={{ mr: 2 }}>
                                 <ShareIcon />
@@ -172,7 +203,10 @@ const DocumentEditor = () => {
                                 )}
                             </Box>
                         </Box>
-                        <Chat documentId={id} currentUser={auth.currentUser} chatRef={chatRef} />
+                        {documentData?.sharedWith && documentData.sharedWith.length > 0 && (
+                            <Chat documentId={id} currentUser={auth.currentUser} chatRef={chatRef} />
+                        )}
+                        
                     </Box>
                 </Box>
             </Box>
