@@ -1,7 +1,8 @@
 import React from 'react';
-import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
+import { AppBar, Toolbar, Typography, Button, Box, IconButton } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import PeopleIcon from '@mui/icons-material/People';
 
 const Header = () => {
   const { currentUser, logout } = useAuth();
@@ -19,7 +20,12 @@ const Header = () => {
   return (
     <AppBar position="static">
       <Toolbar sx={{ justifyContent: 'space-between' }}>
-        <Button color="inherit" component={Link} sx={{fontWeight:"bold", fontSize:20}} to="/">GroupiFy</Button>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <IconButton color="inherit" component={Link} to="/">
+            <PeopleIcon />
+          </IconButton>
+          <Button color="inherit" component={Link} sx={{fontWeight:"bold", fontSize:20}} to="/">GroupiFy</Button>
+        </Box>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           {currentUser ? (
             <>

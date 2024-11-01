@@ -2,9 +2,10 @@
 import React, { useState } from 'react';
 import { auth } from '../firebase/config';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { db } from '../firebase/config'; // Import Firestore
+import { collection, doc, setDoc } from 'firebase/firestore'; // Firestore functions
 import { TextField, Button, Typography, Container, Box, Paper, Avatar } from '@mui/material';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Signup = () => {
     const [email, setEmail] = useState('');
@@ -16,14 +17,24 @@ const Signup = () => {
     const handleSignup = async (e) => {
         e.preventDefault();
         setError('');
-        
+
         if (password !== confirmPassword) {
             setError('Passwords do not match');
             return;
         }
 
         try {
-            await createUserWithEmailAndPassword(auth, email, password);
+            // Create user in Firebase Authentication
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+
+            // Add user data to Firestore
+            await setDoc(doc(collection(db, 'users'), user.uid), {
+                email: email,
+                createdAt: new Date(),
+                // Add any additional fields you want here
+            });
+
             // Redirect or show success
             navigate('/');
             console.log('User signed up:', email);
@@ -36,9 +47,7 @@ const Signup = () => {
 
     return (
         <Container component="main" maxWidth="xs" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
-            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                {/* Add a brand logo here if available */}
-            </Avatar>
+            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }} />
             <Typography variant="h3" align="center" gutterBottom>GroupiFy</Typography>
             <Paper elevation={6} style={{ padding: '2rem', marginTop: '2rem', width: '100%', borderRadius: '10px', backgroundColor: 'var(--bg-secondary)', color: 'var(--text-primary)' }}>
                 <Typography variant="h4" align="center" gutterBottom>Sign Up</Typography>
