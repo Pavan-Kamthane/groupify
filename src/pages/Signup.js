@@ -26,11 +26,12 @@ const Signup = () => {
         setLoading(true); // Start loading indicator
 
         // Validate email
-        if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
             setError('Invalid email format');
             setLoading(false); // Stop loading indicator
             return;
         }
+
 
         // Validate password length
         if (password.length < 6) {

@@ -3,10 +3,8 @@ import { Dialog, DialogTitle, DialogContent, DialogActions, TextField, Button, A
 import CloseIcon from '@mui/icons-material/Close';
 import { doc, updateDoc, arrayUnion, getDoc } from 'firebase/firestore';
 import { db } from '../firebase/config';
-import { useAuth } from '../context/AuthContext';
 
 const ShareDocument = ({ open, onClose, documentId }) => {
-    const { currentUser } = useAuth();
     const [email, setEmail] = useState('');
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState('');

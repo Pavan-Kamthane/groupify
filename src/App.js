@@ -1,4 +1,4 @@
-import { ThemeProvider, CssBaseline } from '@mui/material';
+import { ThemeProvider, CssBaseline, Box, IconButton, Typography } from '@mui/material';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -8,6 +8,8 @@ import Signup from './pages/Signup';
 import Header from './components/Header';
 import DocumentEditor from './components/DocumentEditor'; // Import DocumentEditor
 import theme from './styles/theme';
+import PeopleIcon from '@mui/icons-material/People';
+
 
 function App() {
   return (
@@ -25,7 +27,25 @@ function App() {
 function AppRoutes() {
   const { currentUser, loading } = useAuth();
 
-  if (loading) return <div>Loading...</div>; // Show loading indicator while auth state is being resolved
+  if (loading) return (
+    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+        <IconButton color="inherit" sx={{ mr: 1 }}>
+          <PeopleIcon fontSize="large" />
+        </IconButton>
+        <Typography
+          variant="h6"
+          sx={{ textDecoration: 'none', color: 'inherit', fontWeight: 'bold', fontSize: 24 }}
+        >
+          GroupiFy
+        </Typography>
+      </Box>
+      <Typography variant="body1" sx={{ color: 'text.secondary', fontSize: 18 }}>
+        Loading...
+      </Typography>
+    </Box>
+  );
+// Show loading indicator while auth state is being resolved
 
   return (
     <Routes>
