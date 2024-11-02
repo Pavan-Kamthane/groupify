@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../firebase/config';
-import { Button, Grid, Typography, Container, Card, CardContent, CardActionArea } from '@mui/material';
+import { Button, Grid, Typography, Container, Card, CardContent, CardActionArea, Box, IconButton } from '@mui/material';
 import DocumentForm from '../components/DocumentForm';
 import { useNavigate } from 'react-router-dom';
+import AddIcon from '@mui/icons-material/Add'; // Import the Plus icon
+
 
 const Home = () => {
   const { currentUser } = useAuth();
@@ -77,22 +79,8 @@ const Home = () => {
   const sharedDocuments = documents.filter(doc => doc.sharedWith && doc.sharedWith.includes(currentUser.email));
 
   return (
-    <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-      <Typography variant="h4" gutterBottom>
-        My Documents
-      </Typography>
-      <Button
-        variant="contained"
-        color="primary"
-        sx={{ mb: 3 }}
-        onClick={() => setOpenDocumentForm(true)}
-      >
-        Create New Document
-      </Button>
-      <DocumentForm
-        open={openDocumentForm}
-        onClose={() => setOpenDocumentForm(false)}
-      />
+    <Container maxWidth="lg" sx={{ mt: 4, mb: 4, position: 'relative' }}>
+
 
       {/* Owned Documents Section */}
       <Typography variant="h5" gutterBottom>
@@ -149,11 +137,43 @@ const Home = () => {
         ))}
       </Grid>
 
-      {documents.length === 0 && (
+      {ownedDocuments.length === 0 && (
         <Typography variant="h6" gutterBottom sx={{ mt: 4 }}>
-          You haven't created any documents yet. Click the button above to create your first document.
+          Get started by creating your first document. Click the button '+' to begin.
         </Typography>
+
       )}
+
+      {/* Create New Document Button */}
+      <Box
+        sx={{
+          position: 'absolute',
+          bottom: 16,
+          right: 16,
+        }}
+      >
+        <IconButton
+          color="primary" // Ensures the button uses the primary color
+          onClick={() => setOpenDocumentForm(true)}
+          aria-label="Create New Document"
+          sx={{
+            bgcolor: 'primary.main', // Set the background color to primary
+            color: 'white', // Set the icon color to white
+            '&:hover': {
+              bgcolor: 'primary.dark', // Change background on hover
+            },
+            width: 56,
+            height: 56,
+          }}
+        >
+          <AddIcon />
+        </IconButton>
+      </Box>
+
+      <DocumentForm
+        open={openDocumentForm}
+        onClose={() => setOpenDocumentForm(false)}
+      />
     </Container>
   );
 };
