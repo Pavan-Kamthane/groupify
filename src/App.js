@@ -9,6 +9,7 @@ import Header from './components/Header';
 import DocumentEditor from './components/DocumentEditor'; // Import DocumentEditor
 import theme from './styles/theme';
 import PeopleIcon from '@mui/icons-material/People';
+import Footer from './components/Footer';
 
 
 function App() {
@@ -49,10 +50,10 @@ function AppRoutes() {
 
   return (
     <Routes>
-      <Route path="/login" element={currentUser ? <Navigate to="/" /> : <Login />} />
-      <Route path="/signup" element={currentUser ? <Navigate to="/" /> : <Signup />} />
-      <Route path="/" element={<ProtectedRoute element={<><Header /><Home /></>} />} />
-      <Route path="/document/:id" element={<ProtectedRoute element={<><Header /><DocumentEditor /></>} />} /> {/* Add route for DocumentEditor */}
+      <Route path="/login" element={currentUser ? <Navigate to="/" /> : <><Login /><Footer /></>} />
+      <Route path="/signup" element={currentUser ? <Navigate to="/" /> : <><Signup /><Footer /></>} />
+      <Route path="/" element={<ProtectedRoute element={<><Header /><Home /><Footer /></>} />} />
+      <Route path="/document/:id" element={<ProtectedRoute element={<><Header /><DocumentEditor /><Footer /></>} />} /> {/* Add route for DocumentEditor */}
     </Routes>
   );
 }
