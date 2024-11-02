@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { doc, updateDoc, serverTimestamp, onSnapshot, collection, getDocs, arrayUnion, arrayRemove } from 'firebase/firestore';
 import { db } from '../firebase/config';
-import { Box, Paper, Typography, CircularProgress, Alert, Toolbar, AppBar, IconButton, Tooltip } from '@mui/material';
+import { Box, Paper, Typography, CircularProgress, Alert, Toolbar, AppBar, IconButton, Tooltip, Button } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -13,6 +13,11 @@ import ShareIcon from '@mui/icons-material/Share'; // Import ShareIcon
 import ShareDocument from './ShareDocument'; // Import ShareDialog
 import { auth } from '../firebase/config'; // Import auth from your Firebase config
 import Chat from './Chat'; // Import Chat component
+import { jsPDF } from 'jspdf';
+import html2canvas from 'html2canvas';
+import { saveAs } from 'file-saver';
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+import DescriptionIcon from '@mui/icons-material/Description';
 
 const DocumentEditor = () => {
     const { id } = useParams();
@@ -68,6 +73,17 @@ const DocumentEditor = () => {
 
     const handleShareClick = () => {
         setOpenShareDialog(true);
+    };
+
+    const downloadAsPdf = () => {
+        const doc = new jsPDF();
+        doc.text(content, 10, 10);
+        doc.save('document.pdf');
+    };
+
+    const downloadAsWord = () => {
+        const blob = new Blob([content], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+        saveAs(blob, 'document.docx');
     };
 
     if (loading) {
@@ -175,6 +191,16 @@ const DocumentEditor = () => {
                         <Tooltip title="Save Document">
                             <IconButton onClick={() => handleContentChange(content)} color="inherit" sx={{ mr: 2 }}>
                                 <SaveIcon />
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Download as PDF">
+                            <IconButton onClick={downloadAsPdf} color="inherit" sx={{ mr: 2 }}>
+                                <PictureAsPdfIcon />
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Download as Word">
+                            <IconButton onClick={downloadAsWord} color="inherit" sx={{ mr: 2 }}>
+                                <DescriptionIcon />
                             </IconButton>
                         </Tooltip>
                         {saving && <CircularProgress size={24} sx={{ color: 'white', ml: 2 }} />}
