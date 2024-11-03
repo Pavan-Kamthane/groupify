@@ -19,6 +19,10 @@ import { saveAs } from 'file-saver';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import DescriptionIcon from '@mui/icons-material/Description';
 
+
+
+
+
 const DocumentEditor = () => {
     const { id } = useParams();
     const { documentData, loading, error } = useFirestoreRealtime(id); // Use the custom hook
@@ -251,9 +255,9 @@ const DocumentEditor = () => {
 
 
             {/* Main Content */}
-            <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, justifyContent: 'space-between' }}>
+            <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, justifyContent: 'space-between' , minHeight: 'calc(100vh - 64px)'}}>
                 {/* Document Editor */}
-                <Paper elevation={4} sx={{ p: 3, borderRadius: '8px', flex: 1, mb: { xs: 2, md: 0 }, mr: { md: 2 }, backgroundColor: '#fff' }}>
+                <Paper elevation={4} sx={{ p: 3, borderRadius: '8px', flex: 1, mb: { xs: 2, md: 0 }, mr: { md: 2 }, backgroundColor: '#fff', }}>
                     {renderEditor()}
                 </Paper>
 
@@ -270,7 +274,7 @@ const DocumentEditor = () => {
                 }}>
                     {/* Users with Access */}
                     <Box>
-                        <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>Working With:</Typography>
+                        <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>Collaborators:</Typography>
                         <Box sx={{ maxHeight: '300px', overflowY: 'auto', mb: 2 }}>
                             {documentData?.sharedWith && documentData.sharedWith.length > 0 ? (
                                 documentData.sharedWith.map((email, index) => (
@@ -292,7 +296,9 @@ const DocumentEditor = () => {
                             ) : (
                                 <Box sx={{ textAlign: 'center', color: 'text.secondary' }}>
                                     <Typography variant="body2">No users have access to this document.</Typography>
-                                    <img src="empty-state-icon.png" alt="No Access" style={{ width: '50px', marginTop: '10px' }} />
+                                    {/* <img src="empty-state-icon.png" alt="No Access" style={{ width: '50px', marginTop: '10px' }} /> */}
+                                    {/* use icon */}
+
                                 </Box>
                             )}
                         </Box>
