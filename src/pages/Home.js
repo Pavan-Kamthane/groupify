@@ -14,18 +14,45 @@ import {
   IconButton,
   Tabs,
   Tab,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
 } from '@mui/material';
 import DocumentForm from '../components/DocumentForm';
 import { useNavigate } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
+import VideoCallIcon from '@mui/icons-material/VideoCall'; // Import Video Call Icon
+import VideoSignIn from '../components/VideoSignIn';
+import {
+  selectIsConnectedToRoom,
+  useHMSActions,
+  useHMSStore
+} from "@100mslive/react-sdk";
+import Conference from '../components/Conference';
+import VideoFooter from '../components/VideoFooter';
+
 
 const Home = () => {
   const { currentUser } = useAuth();
   const [documents, setDocuments] = useState([]);
   const [users, setUsers] = useState({});
   const [openDocumentForm, setOpenDocumentForm] = useState(false);
+  const [openVideoSignIn, setOpenVideoSignIn] = useState(false); // New state for video sign in
   const [activeTab, setActiveTab] = useState(0); // State to track the active tab
   const navigate = useNavigate();
+  const [openVideoCallDialog, setOpenVideoCallDialog] = useState(false);
+  const isConnected = useHMSStore(selectIsConnectedToRoom);
+  const hmsActions = useHMSActions();
+
+
+  useEffect(() => {
+    window.onunload = () => {
+      if (isConnected) {
+        hmsActions.leave();
+      }
+    }
+  }, [hmsActions, isConnected]);
 
   useEffect(() => {
     const fetchDocuments = async () => {
@@ -79,6 +106,14 @@ const Home = () => {
 
   const handleDocumentClick = (id) => {
     navigate(`/document/${id}`);
+  };
+
+  const handleVideoCall = () => {
+    setOpenVideoCallDialog(true); // Open the video call dialog
+  };
+
+  const closeVideoCallDialog = () => {
+    setOpenVideoCallDialog(false); // Close the video call dialog
   };
 
   const ownedDocuments = documents.filter((doc) => doc.owner === currentUser.uid);
@@ -194,13 +229,74 @@ const Home = () => {
             },
             width: 56,
             height: 56,
+            marginRight: 2,
           }}
         >
           <AddIcon />
         </IconButton>
+
+        {/* Video Call Button */}
+        <IconButton
+          color="primary"
+          onClick={handleVideoCall}
+          aria-label="Start Video Call"
+          sx={{
+            bgcolor: 'primary.main',
+            color: 'white',
+            '&:hover': {
+              bgcolor: 'primary.dark',
+            },
+            width: 56,
+            height: 56,
+          }}
+        >
+          <VideoCallIcon />
+
+        </IconButton>
       </Box>
 
       <DocumentForm open={openDocumentForm} onClose={() => setOpenDocumentForm(false)} />
+
+      <Dialog open={openVideoCallDialog} onClose={closeVideoCallDialog}
+        sx={{
+
+          width: '100%',
+          height: '100%',
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        }}
+      >
+        <DialogTitle>Join Video Call</DialogTitle>
+        <DialogContent
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            width: '100%',
+            height: '100%',
+          }}
+        >
+          {isConnected ? (
+            <Box
+            
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                width: '100%',
+                height: '100%',
+              }}
+            >
+              <Conference />
+              <VideoFooter />
+            </Box>
+          ) : (
+            <VideoSignIn />
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeVideoCallDialog} color="primary">
+            Cancel
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Container>
   );
 };
