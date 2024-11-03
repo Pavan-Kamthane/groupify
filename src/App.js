@@ -10,6 +10,7 @@ import DocumentEditor from './components/DocumentEditor'; // Import DocumentEdit
 import theme from './styles/theme';
 import PeopleIcon from '@mui/icons-material/People';
 import Footer from './components/Footer';
+import { Analytics } from "@vercel/analytics/react"
 
 
 function App() {
