@@ -33,12 +33,12 @@ function VideoSignIn() {
         if (selectedRole === "host") {
             setInputValues((prevValues) => ({
                 ...prevValues,
-                token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2ZXJzaW9uIjoyLCJ0eXBlIjoiYXBwIiwiYXBwX2RhdGEiOm51bGwsImFjY2Vzc19rZXkiOiI2NzI2NzFmMzQ5NDRmMDY3MzEzYTdmNmMiLCJyb2xlIjoiaG9zdCIsInJvb21faWQiOiI2NzI2NzI0MTg0OWIxN2RjZmM5MThjYzEiLCJ1c2VyX2lkIjoiMmY4MDcyNDctZmU1Yi00ZWQyLTkzYmMtOWM0MjA0YjJkMzAzIiwiZXhwIjoxNzMwNzAyNDIzLCJqdGkiOiIwOTI1MjVkZi02MjNiLTQwZTgtODdiNC00N2U5YjE4ZTZmM2QiLCJpYXQiOjE3MzA2MTYwMjMsImlzcyI6IjY3MjY3MWYzNDk0NGYwNjczMTNhN2Y2YSIsIm5iZiI6MTczMDYxNjAyMywic3ViIjoiYXBpIn0.ShYZqlo7G9Dd2W7S3LiyJ08h9RdmmDQr0_ruI-cDkaM"
+                token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2ZXJzaW9uIjoyLCJ0eXBlIjoiYXBwIiwiYXBwX2RhdGEiOm51bGwsImFjY2Vzc19rZXkiOiI2NzI2NzFmMzQ5NDRmMDY3MzEzYTdmNmMiLCJyb2xlIjoiaG9zdCIsInJvb21faWQiOiI2NzJlZDM1YWUxYzc3ZmNjNGMyNzczYmQiLCJ1c2VyX2lkIjoiMjc3ZmQyYmYtM2QzMi00YmU4LWI3N2UtZDIzNmY4NmY2ZjA0IiwiZXhwIjoxNzMxMjA4NDExLCJqdGkiOiI5ZTVkNGNjZi0xMTc5LTRiYzItYTlkOC05N2Y3YWI5MTE1ODUiLCJpYXQiOjE3MzExMjIwMTEsImlzcyI6IjY3MjY3MWYzNDk0NGYwNjczMTNhN2Y2YSIsIm5iZiI6MTczMTEyMjAxMSwic3ViIjoiYXBpIn0.FJGhDoo8KDYRoPdN2sqOynAO12r2zzh4OJwxlp8xvOQ"
             }));
         } else {
             setInputValues((prevValues) => ({
                 ...prevValues,
-                token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2ZXJzaW9uIjoyLCJ0eXBlIjoiYXBwIiwiYXBwX2RhdGEiOm51bGwsImFjY2Vzc19rZXkiOiI2NzI2NzFmMzQ5NDRmMDY3MzEzYTdmNmMiLCJyb2xlIjoiZ3Vlc3QiLCJyb29tX2lkIjoiNjcyNjcyNDE4NDliMTdkY2ZjOTE4Y2MxIiwidXNlcl9pZCI6IjIyMzZkZDQwLTdmNDgtNDY0ZS05Mjk4LWU5YmU4OTk1MjRkMiIsImV4cCI6MTczMDcwMjQyMiwianRpIjoiYmE4NWExM2UtZjBkZC00NjRhLWIzNDMtNDM2ZmQxOWJlYmI0IiwiaWF0IjoxNzMwNjE2MDIyLCJpc3MiOiI2NzI2NzFmMzQ5NDRmMDY3MzEzYTdmNmEiLCJuYmYiOjE3MzA2MTYwMjIsInN1YiI6ImFwaSJ9.DS2YomEmnQA88yZaNctieKfUoospc3x6VvtxcoNLY1E"
+                token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2ZXJzaW9uIjoyLCJ0eXBlIjoiYXBwIiwiYXBwX2RhdGEiOm51bGwsImFjY2Vzc19rZXkiOiI2NzI2NzFmMzQ5NDRmMDY3MzEzYTdmNmMiLCJyb2xlIjoiZ3Vlc3QiLCJyb29tX2lkIjoiNjcyZWQzNWFlMWM3N2ZjYzRjMjc3M2JkIiwidXNlcl9pZCI6ImQ3YThmMTdjLTEyNDItNGVlMi1iZDNkLTY1M2FlN2ZjM2IyOSIsImV4cCI6MTczMTIwODQ0NSwianRpIjoiMzVlOGE2ZWYtYjQ1OS00YjM3LWFkMGQtNzQyYWFkNmY4OGFjIiwiaWF0IjoxNzMxMTIyMDQ1LCJpc3MiOiI2NzI2NzFmMzQ5NDRmMDY3MzEzYTdmNmEiLCJuYmYiOjE3MzExMjIwNDUsInN1YiI6ImFwaSJ9.OYQjfL8HJJc_9STY-SXEsxl_tQKsIPJedkpyw5UZxTg"
             }));
         }
     };
@@ -88,6 +88,7 @@ function VideoSignIn() {
                             value={role}
                             onChange={handleRoleChange}
                         >
+                            <MenuItem value="">Select Role</MenuItem>
                             <MenuItem value="host">Host</MenuItem>
                             <MenuItem value="guest">Guest</MenuItem>
                         </Select>
