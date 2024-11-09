@@ -174,6 +174,8 @@ const Home = () => {
                 Get started by creating your first document. Click the '+' button to begin.
               </Typography>
             )}
+        
+
           </Box>
         )}
 
@@ -205,6 +207,13 @@ const Home = () => {
                 </Grid>
               ))}
             </Grid>
+
+            {sharedDocuments.length === 0 && (
+              <Typography variant="h6" gutterBottom sx={{ mt: 4 }}>
+                No shared documents found.
+              </Typography>
+            )}
+            
           </Box>
         )}
       </Box>
