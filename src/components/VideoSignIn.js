@@ -13,7 +13,7 @@ function VideoSignIn() {
         name: "",
         token: ""
     });
-    const [role, setRole] = useState("guest"); // Default role
+    const [role, setRole] = useState(""); // No default role selected
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -33,12 +33,12 @@ function VideoSignIn() {
         if (selectedRole === "host") {
             setInputValues((prevValues) => ({
                 ...prevValues,
-                token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2ZXJzaW9uIjoyLCJ0eXBlIjoiYXBwIiwiYXBwX2RhdGEiOm51bGwsImFjY2Vzc19rZXkiOiI2NzI2NzFmMzQ5NDRmMDY3MzEzYTdmNmMiLCJyb2xlIjoiaG9zdCIsInJvb21faWQiOiI2NzMxZDNkNzg0OWIxN2RjZmM5MTkyMDgiLCJ1c2VyX2lkIjoiMGZhNzJlYWItYzI0NC00MzQ2LTk3NzctYTg4MWI5ZTdhOTZjIiwiZXhwIjoxNzMxNDA1MTUzLCJqdGkiOiIwZmExNTAxNi1mODA3LTQ2MzEtYjI2OS03MTFmMzAzM2VkMmQiLCJpYXQiOjE3MzEzMTg3NTMsImlzcyI6IjY3MjY3MWYzNDk0NGYwNjczMTNhN2Y2YSIsIm5iZiI6MTczMTMxODc1Mywic3ViIjoiYXBpIn0.gZhxcRjEjthCcACcZtmzIG3DVexpVBtVgdwwUP17shQ"
+                token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2ZXJzaW9uIjoyLCJ0eXBlIjoiYXBwIiwiYXBwX2RhdGEiOm51bGwsImFjY2Vzc19rZXkiOiI2NzI2NzFmMzQ5NDRmMDY3MzEzYTdmNmMiLCJyb2xlIjoiaG9zdCIsInJvb21faWQiOiI2NzMxZDNkNzg0OWIxN2RjZmM5MTkyMDgiLCJ1c2VyX2lkIjoiMTU0ZmIwZmEtN2Y5Mi00NzMzLWE3M2ItMTI4YThmZTNiNjk1IiwiZXhwIjoxNzMxODE4NzA3LCJqdGkiOiI2Mzc0NWZmMy1kYjg5LTRmMWItYmU1MC02MTRjMGYyMGM0ZmIiLCJpYXQiOjE3MzE3MzIzMDcsImlzcyI6IjY3MjY3MWYzNDk0NGYwNjczMTNhN2Y2YSIsIm5iZiI6MTczMTczMjMwNywic3ViIjoiYXBpIn0.5xcdbiBEUC1lOvApH2LsUKRdfIwAvK8BZoeqLqy8rBg"
             }));
         } else {
             setInputValues((prevValues) => ({
                 ...prevValues,
-                token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2ZXJzaW9uIjoyLCJ0eXBlIjoiYXBwIiwiYXBwX2RhdGEiOm51bGwsImFjY2Vzc19rZXkiOiI2NzI2NzFmMzQ5NDRmMDY3MzEzYTdmNmMiLCJyb2xlIjoiZ3Vlc3QiLCJyb29tX2lkIjoiNjczMWQzZDc4NDliMTdkY2ZjOTE5MjA4IiwidXNlcl9pZCI6IjY5MTg3OTYyLWQxZTQtNDhmNy1hODRjLWM0NWVmZmVkN2FkYyIsImV4cCI6MTczMTQwNTE3MSwianRpIjoiYTJjZWQyZTMtYzA0NS00ZmNkLWJhYmMtZWFkNmE3MDdiN2E0IiwiaWF0IjoxNzMxMzE4NzcxLCJpc3MiOiI2NzI2NzFmMzQ5NDRmMDY3MzEzYTdmNmEiLCJuYmYiOjE3MzEzMTg3NzEsInN1YiI6ImFwaSJ9.eITutLqrTuK45YbMJazf9qnLLyOlQE-MQo3uocpebCQ"
+                token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2ZXJzaW9uIjoyLCJ0eXBlIjoiYXBwIiwiYXBwX2RhdGEiOm51bGwsImFjY2Vzc19rZXkiOiI2NzI2NzFmMzQ5NDRmMDY3MzEzYTdmNmMiLCJyb2xlIjoiZ3Vlc3QiLCJyb29tX2lkIjoiNjczMWQzZDc4NDliMTdkY2ZjOTE5MjA4IiwidXNlcl9pZCI6ImI1Y2IxYjk5LWNmMDgtNDc5Zi1hMDU5LTRiN2I5ODY3N2NlMCIsImV4cCI6MTczMTgxODcwNSwianRpIjoiOWQ3ZjQzZTktOWQxMy00MmZjLTg2NTgtNzMzMDQ1NjhlZGEwIiwiaWF0IjoxNzMxNzMyMzA1LCJpc3MiOiI2NzI2NzFmMzQ5NDRmMDY3MzEzYTdmNmEiLCJuYmYiOjE3MzE3MzIzMDUsInN1YiI6ImFwaSJ9.UA8lWpUXZgZBatmxiT5bDXADVd4ApSds2PDDydqxflI"
             }));
         }
     };
@@ -87,8 +87,8 @@ function VideoSignIn() {
                             labelId="role-select-label"
                             value={role}
                             onChange={handleRoleChange}
+                            placeholder="Select Role"
                         >
-                            <MenuItem value="">Select Role</MenuItem>
                             <MenuItem value="host">Host</MenuItem>
                             <MenuItem value="guest">Guest</MenuItem>
                         </Select>
