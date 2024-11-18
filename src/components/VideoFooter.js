@@ -75,22 +75,6 @@ const VideoFooter = () => {
                     <Typography variant="body1">{isScreenShareActive ? "Stop Screen Share" : "Share Screen"}</Typography>
                 </IconButton>
 
-                <IconButton color="primary">
-                    <ChatIcon />
-                    <Typography variant="body1">Chat</Typography>
-                </IconButton>
-                <IconButton color="primary">
-                    <EmojiEmotionsIcon />
-                    <Typography variant="body1">Reactions</Typography>
-                </IconButton>
-                <IconButton color="primary">
-                    <SettingsIcon />
-                    <Typography variant="body1">Settings</Typography>
-                </IconButton>
-                <IconButton color="primary">
-                    <MoreHorizIcon />
-                    <Typography variant="body1">More</Typography>
-                </IconButton>
             </Box>
 
             <Box display="flex" justifyContent="center">
