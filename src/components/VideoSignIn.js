@@ -33,8 +33,7 @@ function VideoSignIn() {
         if (selectedRole === "host") {
             setInputValues((prevValues) => ({
                 ...prevValues,
-                token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2ZXJzaW9uIjoyLCJ0eXBlIjoiYXBwIiwiYXBwX2RhdGEiOm51bGwsImFjY2Vzc19rZXkiOiI2NzI2NzFmMzQ5NDRmMDY3MzEzYTdmNmMiLCJyb2xlIjoiaG9zdCIsInJvb21faWQiOiI2NzMxZDNkNzg0OWIxN2RjZmM5MTkyMDgiLCJ1c2VyX2lkIjoiMTU0ZmIwZmEtN2Y5Mi00NzMzLWE3M2ItMTI4YThmZTNiNjk1IiwiZXhwIjoxNzMxODE4NzA3LCJqdGkiOiI2Mzc0NWZmMy1kYjg5LTRmMWItYmU1MC02MTRjMGYyMGM0ZmIiLCJpYXQiOjE3MzE3MzIzMDcsImlzcyI6IjY3MjY3MWYzNDk0NGYwNjczMTNhN2Y2YSIsIm5iZiI6MTczMTczMjMwNywic3ViIjoiYXBpIn0.5xcdbiBEUC1lOvApH2LsUKRdfIwAvK8BZoeqLqy8rBg"
-            }));
+                token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2ZXJzaW9uIjoyLCJ0eXBlIjoiYXBwIiwiYXBwX2RhdGEiOm51bGwsImFjY2Vzc19rZXkiOiI2NzNiNTExMTMzY2U3NGFiOWJlOTQ4MDAiLCJyb2xlIjoiaG9zdCIsInJvb21faWQiOiI2NzNiNTE0Yzg0OWIxN2RjZmM5MTk5OGYiLCJ1c2VyX2lkIjoiMjE3ZDFkYjQtYzkxNC00YjBmLWE0MWEtYzRmNDVlYzNjYTJiIiwiZXhwIjoxNzMyMDI3MDg1LCJqdGkiOiJjNGZjM2YzOS0xZjliLTQ0NmItODA4Yi1mN2MzNDdlZmNlMzMiLCJpYXQiOjE3MzE5NDA2ODUsImlzcyI6IjY3M2I1MTExMzNjZTc0YWI5YmU5NDdmZSIsIm5iZiI6MTczMTk0MDY4NSwic3ViIjoiYXBpIn0.K_aXF4tPBqfZS48_3MNeTI68WWthMpb_leFyqJV3Lfc"}));
         } else {
             setInputValues((prevValues) => ({
                 ...prevValues,
