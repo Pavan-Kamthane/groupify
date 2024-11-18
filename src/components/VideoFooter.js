@@ -19,10 +19,6 @@ import VideocamOffIcon from "@mui/icons-material/VideocamOff";
 import GroupIcon from "@mui/icons-material/Group";
 import ScreenShareIcon from "@mui/icons-material/ScreenShare";
 import StopScreenShareIcon from "@mui/icons-material/StopScreenShare"; // Import Stop icon
-import ChatIcon from "@mui/icons-material/Chat";
-import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
-import SettingsIcon from "@mui/icons-material/Settings";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 
 const VideoFooter = () => {
     const { isLocalAudioEnabled, isLocalVideoEnabled, toggleAudio, toggleVideo } = useAVToggle();
