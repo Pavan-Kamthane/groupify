@@ -89,9 +89,20 @@ const Login = () => {
                     <Button variant="contained" color="secondary" style={{ padding: '0.5rem', fontSize: '1rem', backgroundColor: theme.palette.secondary.main, color: theme.palette.text.primary }}>
                         <Link to="/signup" style={{ color: theme.palette.text.primary, textDecoration: 'none', fontSize: '1rem' }}>Don't have an account? Sign up</Link>
                     </Button>
+                    <Typography variant="h6" align="center" sx={{ mt: 2 }}>
+                        Use this credentials to login:
+                    </Typography>
+                    <Typography variant="body1" align="center">
+                        student1@gmail.com : Student1@123
+                    </Typography>
+                    <Typography variant="body1" align="center">
+                        student2@gmail.com : Student2@123
+                    </Typography>
+
                 </Box>
             </Paper>
         </Container>
+        
     );
 };
 
